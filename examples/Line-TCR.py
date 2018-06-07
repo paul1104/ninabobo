@@ -1,9 +1,23 @@
 # -*- coding: utf-8 -*-
 # Thanks for FadhiilRachman and TCR TEAM
 # I JUST FORKED
-from linepy import *
+from LINEPY import *
 import time,random,sys,json,codecs,threading,glob,re,datetime
 from datetime import timedelta, date
+from time import time
+from bs4 import BeautifulSoup
+from threading import Thread
+from googletrans import Translator
+from urllib3 import HTTPConnectionPool
+import subprocess,os,requests,goslate,ctypes
+import ast
+import subprocess
+import urllib
+import urllib2
+import urllib3
+import cookielib
+import wikipedia
+import shutil
 
 #cl = LineClient() ----> Buat Login by QR
 cl = LineClient(authToken='')
@@ -13,56 +27,261 @@ cl.log("Auth Token : " + str(cl.authToken))
 channel = LineChannel(cl)
 cl.log("Channel Access Token : " + str(channel.channelAccessToken))
 
-#ki = LineClient() ----> Buat Login by QR
-ki = LineClient(authToken='')
-ki.log("Auth Token : " + str(ki.authToken))
-
-# Initialize LineChannel with LineClient
-channel2 = LineChannel(ki)
-ki.log("Channel Access Token : " + str(channel2.channelAccessToken))
-
-#kk = LineClient() ----> Buat Login by QR
-kk = LineClient(authToken='')
-kk.log("Auth Token : " + str(kk.authToken))
-
-# Initialize LineChannel with LineClient
-channel3 = LineChannel(kk)
-kk.log("Channel Access Token : " + str(channel3.channelAccessToken))
-
-#kc = LineClient() ----> Buat Login by QR
-kc = LineClient(authToken='')
-kc.log("Auth Token : " + str(kc.authToken))
-
-# Initialize LineChannel with LineClient
-channel4 = LineChannel(kc)
-kc.log("Channel Access Token : " + str(channel4.channelAccessToken))
-
-#km = LineClient() ----> Buat Login by QR
-km = LineClient(authToken='')
-km.log("Auth Token : " + str(km.authToken))
-
-# Initialize LineChannel with LineClient
-channel5 = LineChannel(km)
-km.log("Channel Access Token : " + str(channel5.channelAccessToken))
+botStart = time.time()
 
 poll = LinePoll(cl)
-poll2 = LinePoll(ki)
-poll3 = LinePoll(kk)
-poll4 = LinePoll(kc)
-poll5 = LinePoll(km)
-creator = ["udf060a89ebb2af83af77edddb767c329"]
+creator = ["ud4082219b6754e7b610f84d07d3b436b"]
 Qmid = cl.getProfile().mid
-Amid = ki.getProfile().mid
-Bmid = kk.getProfile().mid
-Cmid = kc.getProfile().mid
-Kmid = km.getProfile().mid
-KAC = [cl,ki,kk,kc,km]
-Bots = [Qmid,Amid,Bmid,Cmid,Kmid,admin]
+KAC = [cl]
+Bots = [Qmid]
 responsename = cl.getProfile().displayName
-responsename2 = ki.getProfile().displayName
-responsename3 = kk.getProfile().displayName
-responsename4 = kc.getProfile().displayName
-responsename5 = km.getProfile().displayName
+mid = cl.getProfile().mid
+Bots=[mid]
+admin=["ub8530f15ff4020c3cc2d1ad2f066aa4b","u5601bdfbc2c67e7adcb95f790127b193"]
+owner=["ub8530f15ff4020c3cc2d1ad2f066aa4b","u5601bdfbc2c67e7adcb95f790127b193"]
+protectname=[]
+
+keyMessage = """╔═══════════════
+║┏━━ೋ• ❄ •ೋ━━━┓
+║ ❁ 🛡  кєи кαиєкι! ＢＯＴ  🛡 ❁    
+║┗━━ೋ• ❄ •ೋ━━━┛
+╠═══════════════
+║「ĸeyword」
+╠═══════════════
+║╔❂͜͡➣「/ѕιderѕ」
+║╠❂͜͡➣「/pυвlιc」
+║╠❂͜͡➣「/ѕearcнιng」
+║╠❂͜͡➣「/newғιтυre」
+║╠❂͜͡➣「/cancel」
+║╠❂͜͡➣「/aвoυт」
+║╚❂͜͡➣「/ĸelυar」
+╚═══════════════ """
+
+newMessage ="""⚘ 🐯 new fiture area 🐯 ⚚
+❂͜͡☆➣ https://tinyurl.com/newfiture (cek disini)
+❂͜͡☆➣ https://tinyurl.com/newfiture2 (cek disini)
+❂͜͡☆➣ cυaca「naмa ĸoтa」= cek cuaca kota
+❂͜͡☆➣ ѕнolaт「naмa ĸoтa」= cek jadwal sholat di kota
+❂͜͡☆➣ cpoѕт 「υѕernaмe ιg ĸaмυ」= untuk cek post terakhir mu yang berupa foto
+❂͜͡☆➣ cvιd「υѕernaмe ιg ĸaмυ」= untuk cek post terakhir mu yang berupa video
+❂͜͡☆➣ ѕcreen 「υѕernaмe ιg ĸaмυ」= untuk screenshoot ig kamu
+❂͜͡☆➣ loĸaѕι「yang ιngιn ĸaмυ carι」= υnтυĸ мencarι loĸaѕι
+❂͜͡☆➣ /lιrιĸ「jυdυl lagυ」= υnтυĸ мencarι lιrιĸ lagυ
+❂͜͡☆➣ /lagυ「jυdυl lagυ」= untuk mencari lagu joox
+❂͜͡☆➣ ιnғo ѕaya = вυaт lυcυ lυcυ an"""
+
+sidersMessage =""" 🛡  кєи кαиєкι v2! ＢＯＴ  🛡
+⚘ 🐯 cнecĸ ѕιderѕ area 🐯 ⚚
+❂͜͡☆➣ ѕeтlaѕтpoιnт = cнecĸ ѕιderѕ
+❂͜͡☆➣ vιewlaѕтѕeen = cнecĸ ѕιderѕ
+❂͜͡☆➣ ѕeтpoιnт = cнecĸ ѕιderѕ
+❂͜͡☆➣ read = cнecĸ ѕιderѕ"""
+
+publicMessage =""" ⚘ 🐯 pυвlιc area 🐯 ⚚
+❂͜͡☆➣ creaтor = conтacт peмвυaт вoт
+❂͜͡☆➣ apaĸaн 「тeхт yang ιngιn ĸaмυ тanyaĸan」 (ѕeperтι ĸerang ajaιв)
+❂͜͡☆➣ ĸedapĸedιp「тeхт yang ιngιn dιĸedap ĸedιpĸan」 = coвa aja
+❂͜͡☆➣ doѕa @「naмe」 = вυaт lυcυ2an
+❂͜͡☆➣ paнala @「naмe」 = вυaт lυcυ2an
+❂͜͡☆➣ gcreaтor = мenυnjυĸĸan peмвυaт grυp
+❂͜͡☆➣ gιnғo = ιnғo grυp
+❂͜͡☆➣ ѕpaмтag @ 「naмe」= ѕpaм yang dιтag
+❂͜͡☆➣ /ѕpaм: on/oғғ + jυмlaн + ĸaтa = ѕpaм dengan jυмlaн ĸaтa
+❂͜͡☆➣ мenтιon all = мenтιon ѕeмυa
+❂͜͡☆➣ мenтιon = мenтιon ѕeмυa
+❂͜͡☆➣ тag all = мenтιon ѕeмυa
+❂͜͡☆➣ тagall = мenтιon ѕeмυa
+❂͜͡☆➣ ѕay = coвa aja ĸeтιĸ ѕay"""
+
+searchingMessage =""" ⚘ 🐯 ѕearcнιng area 🐯 ⚚
+❂͜͡☆➣ proғιleιg 「υѕernaмe」
+❂͜͡☆➣ ιnѕтagraм 「υѕernaмe」
+❂͜͡☆➣ .ιnѕтagraм 「υѕernaмe」
+❂͜͡☆➣ wιĸιpedιa 「тeхт」
+❂͜͡☆➣ gιмage「тeхт」
+❂͜͡☆➣ тr-en 「тeхт」
+❂͜͡☆➣ тr-ιd 「тeхт」
+❂͜͡☆➣ ιd@en
+❂͜͡☆➣ en@ιd
+❂͜͡☆➣ ιd@jp
+❂͜͡☆➣ jp@ιd
+❂͜͡☆➣ ιd@тн
+❂͜͡☆➣ тн@ιd
+❂͜͡☆➣ ιd@jp
+❂͜͡☆➣ ιd@ar
+❂͜͡☆➣ ar@ιd
+❂͜͡☆➣ ιd@ĸo
+❂͜͡☆➣ ĸo@ιd
+❂͜͡☆➣ yт: [jυdυl]
+❂͜͡☆➣ ceĸ (тanggal)-(вυlan)-(тaнυn)
+❂͜͡☆➣ /ιg 「υѕernaмe」
+❂͜͡☆➣ ѕearcнιd: 「ιd lιne」"""
+
+cancelMessage ="""ғιтυr вerѕтaтυѕ oғғlιne!"""
+
+welcomeMessage="""тerιмa ĸaѕιн тelaн мengυndang вoт ιnι! 
+ιnvιтe aĸυ ĸe grυp ĸalιan ya :)
+⭐ υnтυĸ мengeтaнυι adмιn ĸeтιĸ "creaтor"!
+⭐ υnтυĸ мengeтaнυι ғιтυre apa ѕaja darι вoт ιnι ĸeтιĸ "нelp"
+⭐ υnтυĸ вoт вeĸerja ѕecara мaхιмal ѕιlaнĸan ιnvιтe creaтor вoт! тнanĸyoυ!❤
+"""
+
+meMessage="""⭐ нow тo υѕe ιт::
+- !say 「тeхт」
+- @say 「тeхт」
+- #say 「тeхт」
+- $say 「тeхт」
+- %say 「тeхт」
+- ^say 「тeхт」
+- &say 「тeхт」
+- *say 「тeхт」
+- (say 「тeхт」
+- )say 「тeхт」
+"""
+
+sayMessage ="""⭐ Kode Baнaѕa ⭐
+aғ : Aғrιĸaanѕ
+ѕq : Alвanιan
+ar : Araвιc
+нy : Arмenιan
+zн : Cнιneѕe
+nl : Dυтcн
+ғr : Frencн
+de : Gerмan
+en : Englιѕн
+ιd : Indoneѕιan
+ja : Japaneѕe
+ĸo : Korean
+ιт : Iтalιan
+la : Laтιn
+pт : Porтυgυeѕe
+ro : Roмanιan
+rυ : Rυѕѕιan
+eѕ : Spanιѕн
+тн : Tнaι
+vι : Vιeтnaмeѕe
+ѕυ : ѕυи∂α 
+נω : נαωα
+⭐ Tнanĸ Yoυ ⭐
+"""
+
+mulai = time.time()
+
+wait = {
+    'contact':False,
+    'autoJoin':True,
+    'sticker':False,
+    'autoCancel':{"on":True,"members":10},
+    "spam":{},
+    "detectMention":False,
+    "Members":1,
+    "wordban":{},
+    'leaveRoom':True,
+    'likeOn':True,
+    'comment1':"Auto Like By http://line.me/ti/p/%40ish7215m",
+    'timeline':True,
+    'autoAdd':True,
+    'atjointicket':True,
+    "alwaysRead":True,
+    "linkticket":False,
+    "cpp":False,
+    "cpg":False,
+    'message':"тнαикѕ fσя α∂∂ мє! му ¢яєαтσя ιѕ http://line.me/ti/p/%40ish7215m",
+    "lang":"JP",
+    "comment":"тнαикѕ fσя α∂∂ мє! му ¢яєαтσя ιѕ http://line.me/ti/p/%40ish7215m",
+    "commenty":"Auto Like by кєи кαиєкι\n\nhttp://line.me/ti/p/%40ish7215m",
+    "commentOn":True,
+    "commentBlack":{},
+    "wblack":False,
+    "dblack":False,
+    "clock":False,
+    "cName":" ",
+    "blacklist":{},
+    "whitelist":{},
+    "wblacklist":False,
+    "dblacklist":False,
+    "teman":{},
+    "winvite":False,
+    "likeOn":True,
+    "protection":False,
+    "welcomemsg":True,
+    "welmsg":" welcome to ",
+    "pname":{},
+    "pro_name":{},
+    "Pap":{}
+    }
+
+wait2 = {
+    'readPoint':{},
+    'readMember':{},
+    'setTime':{},
+    'ROM':{}
+    }
+
+settings = {
+    "userAgent": [
+        "Mozilla/5.0 (X11; U; Linux i586; de; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (X11; U; Linux amd64; rv:5.0) Gecko/20100101 Firefox/5.0 (Debian)",
+        "Mozilla/5.0 (X11; U; Linux amd64; en-US; rv:5.0) Gecko/20110619 Firefox/5.0",
+        "Mozilla/5.0 (X11; Linux) Gecko Firefox/5.0",
+        "Mozilla/5.0 (X11; Linux x86_64; rv:5.0) Gecko/20100101 Firefox/5.0 FirePHP/0.5",
+        "Mozilla/5.0 (X11; Linux x86_64; rv:5.0) Gecko/20100101 Firefox/5.0 Firefox/5.0",
+        "Mozilla/5.0 (X11; Linux x86_64) Gecko Firefox/5.0",
+        "Mozilla/5.0 (X11; Linux ppc; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (X11; Linux AMD64) Gecko Firefox/5.0",
+        "Mozilla/5.0 (X11; FreeBSD amd64; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:5.0) Gecko/20110619 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 6.1.1; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 5.2; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 5.1; U; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 5.1; rv:2.0.1) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 5.0; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0",
+        "Mozilla/5.0 (Windows NT 5.0; rv:5.0) Gecko/20100101 Firefox/5.0"
+    ],
+    "timeRestart": "18000",
+    "simiSimi":{},
+    "mimic": {
+        "copy": False,
+        "status": False,
+        "target": {}
+    }
+}
+
+cctv = {
+    "cyduk":{},
+    "point":{},
+    "sidermem":{}
+}    
+   
+hasil = {
+    "result":False,
+    "posts":False,
+    "postInfo":False,
+    "liked":{}
+    }
+    
+wordban = {
+    "kontol":{},
+    "kontl":{},
+    "kntl":{},
+    "memek":{},
+    "anjing":{},
+    "njing":{},
+    "anjeng":{}
+}
+
+setTime = {}
+setTime = wait2['setTime']
+
+contact = cl.getProfile()
+backup = cl.getProfile()
+profile = cl.getProfile()
+backup.displayName = contact.displayName
+backup.statusMessage = contact.statusMessage
+backup.pictureStatus = contact.pictureStatus
 
 # Receive messages from LinePoll
 def SEND_MESSAGE(op):
