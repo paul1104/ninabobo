@@ -355,7 +355,7 @@ def SEND_MESSAGE(op):
             except Exception as e:
                 print(e)
         elif text.lower() == 'tagall':
-            group = client.getGroup(msg.to)
+            group = cl.getGroup(msg.to)
             nama = [contact.mid for contact in group.members]
             nm1, nm2, nm3, nm4, nm5, jml = [], [], [], [], [], len(nama)
             if jml <= 100:
