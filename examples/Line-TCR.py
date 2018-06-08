@@ -283,6 +283,31 @@ backup.displayName = contact.displayName
 backup.statusMessage = contact.statusMessage
 backup.pictureStatus = contact.pictureStatus
 
+# =========== BATAS SUCI DEF ========================================== #
+def mention(to, nama):
+    aa = ""
+    bb = ""
+    strt = int(0)
+    akh = int(0)
+    nm = nama
+    myid = cl.getProfile().mid
+    if myid in nm:    
+      nm.remove(myid)
+    #print nm
+    for mm in nm:
+      akh = akh + 6
+      aa += """{"S":"""+json.dumps(str(strt))+""","E":"""+json.dumps(str(akh))+""","M":"""+json.dumps(mm)+"},"""
+      strt = strt + 7
+      akh = akh + 1
+      bb += "@nrik \n"
+    aa = (aa[:int(len(aa)-1)])
+    text = bb
+    try:
+       cl.sendMessage(to, text, contentMetadata={'MENTION':'{"MENTIONEES":['+aa+']}'}, contentType=0)
+    except Exception as error:
+       print(error)
+    
+
 # Receive messages from LinePoll
 def SEND_MESSAGE(op):
     '''
@@ -303,6 +328,86 @@ def SEND_MESSAGE(op):
     try:
         if msg.text is None:
             return
+  #======================BATAS SC DARI ME===================#
+        elif text.lower() == 'me':
+            cl.sendMessage(receiver, None, contentMetadata={'mid': sender}, contentType=13)
+        elif text.lower() == 'speed':
+            start = time.time()
+            cl.sendText(receiver, "Tunggu sebentar...")
+            elapsed_time = time.time() - start
+            cl.sendText(receiver, "%sdetik" % (elapsed_time))
+        elif '/curidp' in text.lower():
+            try:
+                key = eval(msg.contentMetadata["MENTION"])
+                u = key["MENTIONEES"][0]["M"]
+                a = cl.getContact(u).pictureStatus
+                print(cl.getContact(u))
+                cl.sendImageWithURL(receiver, 'http://dl.profile.line.naver.jp/'+a)
+            except Exception as e:
+                print(e)
+        elif '/curicover' in text.lower():
+            try:
+                key = eval(msg.contentMetadata["MENTION"])
+                u = key["MENTIONEES"][0]["M"]
+                a = cl.getProfileCoverURL(mid=u)
+                print(a)
+                cl.sendImageWithURL(receiver, a)
+            except Exception as e:
+                print(e)
+        elif text.lower() == 'tagall':
+            group = client.getGroup(msg.to)
+            nama = [contact.mid for contact in group.members]
+            nm1, nm2, nm3, nm4, nm5, jml = [], [], [], [], [], len(nama)
+            if jml <= 100:
+                mention(msg.to, nama)
+            if jml > 100 and jml < 200:
+                for i in range(0, 100):
+                    nm1 += [nama[i]]
+                mention(msg.to, nm1)
+                for j in range(101, len(nama)):
+                    nm2 += [nama[j]]
+                mention(msg.to, nm2)
+            if jml > 200 and jml < 300:
+                for i in range(0, 100):
+                    nm1 += [nama[i]]
+                mention(msg.to, nm1)
+                for j in range(101, 200):
+                    nm2 += [nama[j]]
+                mention(msg.to, nm2)
+                for k in range(201, len(nama)):
+                    nm3 += [nama[k]]
+                mention(msg.to, nm3)
+            if jml > 300 and jml < 400:
+                for i in range(0, 100):
+                    nm1 += [nama[i]]
+                mention(msg.to, nm1)
+                for j in range(101, 200):
+                    nm2 += [nama[j]]
+                mention(msg.to, nm2)
+                for k in range(201, len(nama)):
+                    nm3 += [nama[k]]
+                mention(msg.to, nm3)
+                for l in range(301, len(nama)):
+                    nm4 += [nama[l]]
+                mention(msg.to, nm4)
+            if jml > 400 and jml < 501:
+                for i in range(0, 100):
+                    nm1 += [nama[i]]
+                mention(msg.to, nm1)
+                for j in range(101, 200):
+                    nm2 += [nama[j]]
+                mention(msg.to, nm2)
+                for k in range(201, len(nama)):
+                    nm3 += [nama[k]]
+                mention(msg.to, nm3)
+                for l in range(301, len(nama)):
+                    nm4 += [nama[l]]
+                mention(msg.to, nm4)
+                for m in range(401, len(nama)):
+                    nm5 += [nama[m]]
+                mention(msg.to, nm5)             
+            cl.sendText(receiver, "Members :"+str(jml))
+            
         elif text.lower() == 'hi':
             contact = cl.getContact(sender)
             cl.log('[%s] %s' % (contact.displayName, text))
@@ -313,59 +418,56 @@ def SEND_MESSAGE(op):
             cl.sendMessage(msg.to, 'My author is linepy')            
         elif text.lower() == "responsename":
             cl.sendMessage(msg.to,responsename)
-            ki.sendMessage(msg.to,responsename2)
-            kk.sendMessage(msg.to,responsename3)
-            kc.sendMessage(msg.to,responsename4)
-            km.sendMessage(msg.to,responsename5)
-        elif text.lower() in ["keluar"]:
-               ki.leaveGroup(msg.to)
-               kk.leaveGroup(msg.to)
-               kc.leaveGroup(msg.to)
-               km.leaveGroup(msg.to)
-        elif text.lower() in ["masuk"]:
-                G = cl.getGroup(msg.to)
-                ginfo = cl.getGroup(msg.to)
-                G.preventedJoinByTicket = False
-                cl.updateGroup(G)
-                invsend = 0
-                Ticket = cl.reissueGroupTicket(msg.to)
-                ki.acceptGroupInvitationByTicket(msg.to,Ticket)
-                kk.acceptGroupInvitationByTicket(msg.to,Ticket)
-                kc.acceptGroupInvitationByTicket(msg.to,Ticket)
-                km.acceptGroupInvitationByTicket(msg.to,Ticket)
-                G = cl.getGroup(msg.to)
-                G.preventedJoinByTicket = True
-                cl.updateGroup(G)
-                G.preventedJoinByTicket(G)
-                cl.updateGroup(G)
+        #elif text.lower() in ["/keluar"]:
+         #      ki.leaveGroup(msg.to)
+          #     kk.leaveGroup(msg.to)
+          #     kc.leaveGroup(msg.to)
+          #     km.leaveGroup(msg.to)
+        #elif text.lower() in ["masuk"]:
+         #       G = cl.getGroup(msg.to)
+         #       ginfo = cl.getGroup(msg.to)
+          #      G.preventedJoinByTicket = False
+           #     cl.updateGroup(G)
+            #    invsend = 0
+             #   Ticket = cl.reissueGroupTicket(msg.to)
+              #  ki.acceptGroupInvitationByTicket(msg.to,Ticket)
+             #   kk.acceptGroupInvitationByTicket(msg.to,Ticket)
+             #   kc.acceptGroupInvitationByTicket(msg.to,Ticket)
+             #   km.acceptGroupInvitationByTicket(msg.to,Ticket)
+             #   G = cl.getGroup(msg.to)
+             #   G.preventedJoinByTicket = True
+             #   cl.updateGroup(G)
+             #   G.preventedJoinByTicket(G)
+             #   cl.updateGroup(G)
+            
     except Exception as e:
         cl.log("[SEND_MESSAGE] ERROR : " + str(e))
     
 # Auto join if BOT invited to group
-def NOTIFIED_INVITE_INTO_GROUP(op):
-    try:
-        cl.acceptGroupInvitation(op.param1)
-        ki.acceptGroupInvitation(op.param1)
-        kk.acceptGroupInvitation(op.param1)
-        kc.acceptGroupInvitation(op.param1)
-        km.acceptGroupInvitation(op.param1)
-    except Exception as e:
-        cl.log("[NOTIFIED_INVITE_INTO_GROUP] ERROR : " + str(e))
+#def NOTIFIED_INVITE_INTO_GROUP(op):
+ #   try:
+  #      cl.acceptGroupInvitation(op.param1)
+   #     ki.acceptGroupInvitation(op.param1)
+    #    kk.acceptGroupInvitation(op.param1)
+     #   kc.acceptGroupInvitation(op.param1)
+      #  km.acceptGroupInvitation(op.param1)
+    #except Exception as e:
+     #   cl.log("[NOTIFIED_INVITE_INTO_GROUP] ERROR : " + str(e))
 # Auto kick if BOT out to group
-def NOTIFIED_KICKOUT_FROM_GROUP(op):
-    try:
-        if op.param2 not in Bots:
-            random.choice(KAC).kickoutFromGroup(op.param1,op.param2)
-        else:
-            pass
-    except Exception as e:
-        cl.log("[NOTIFIED_KICKOUT_FROM_GROUP] ERROR : " + str(e))
+#def NOTIFIED_KICKOUT_FROM_GROUP(op):
+ #   try:
+  #      if op.param2 not in Bots:
+   #         random.choice(KAC).kickoutFromGroup(op.param1,op.param2)
+    #    else:
+     #       pass
+    #except Exception as e:
+     #   cl.log("[NOTIFIED_KICKOUT_FROM_GROUP] ERROR : " + str(e))
 
 # Add function to LinePoll
-poll.addOpInterruptWithDict({
-    OpType.SEND_MESSAGE: SEND_MESSAGE,
-    OpType.NOTIFIED_KICKOUT_FROM_GROUP: NOTIFIED_KICKOUT_FROM_GROUP,
-    OpType.NOTIFIED_INVITE_INTO_GROUP: NOTIFIED_INVITE_INTO_GROUP
+#poll.addOpInterruptWithDict({
+ #   OpType.SEND_MESSAGE: SEND_MESSAGE,
+  #  OpType.NOTIFIED_KICKOUT_FROM_GROUP: NOTIFIED_KICKOUT_FROM_GROUP,
+   # OpType.NOTIFIED_INVITE_INTO_GROUP: NOTIFIED_INVITE_INTO_GROUP
 })
 
 while True:
