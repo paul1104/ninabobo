@@ -19,8 +19,6 @@ import cookielib
 import wikipedia
 import shutil
 
-cl = CHROME.LINE() #V2 
-cl.login(token="Esdk1SckTz1VVkXStAlb.ggNCLqZ5irfKOvdzgQfq2W.iGqw2biU4ifOYMbatkExc7jMittEN6hxL42e8ru0vQk=") 
 cl.loginResult()
 
 botStart = time.time()
